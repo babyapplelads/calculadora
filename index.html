@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora BabyApple - Love and Deepspace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Integrado - Estilo Kawaii */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #fceef2; /* Rosa bem clarinho */
+            color: #5b4b5c; /* Roxo acinzentado */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 25px; /* Cantos super arredondados */
+            box-shadow: 0 8px 20px rgba(231, 130, 177, 0.2);
+            border: 2px solid #fff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e782b1; /* Rosa chiclete */
+            margin-top: 0;
+            font-weight: 800;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 30px;
+            color: #a89bb3; /* Lavanda acinzentado */
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #fde4f0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px dashed #f7b2d4;
+            padding-bottom: 10px;
+            color: #d187b8; /* Rosa escuro */
+            font-weight: 800;
+        }
+        
+        h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #a082a1; /* Roxo suave */
+            font-weight: 800;
+        }
+
+        h4 {
+             margin-top: 1rem;
+             margin-bottom: 0.5rem;
+             color: #c47aaa;
+             font-weight: 800;
+        }
+        
+        .input-row, .cost-display-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .selector-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: #8b7a8b;
+        }
+
+        .input-group label {
+             flex-basis: 40%;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #fde4f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #5b4b5c;
+            background-color: #fdf6f8;
+            transition: all 0.3s;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e782b1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.4-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.8em;
+            padding-right: 2.5rem;
+        }
+        
+        .input-row input[type="number"] {
+            flex-basis: 55%;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #f7b2d4;
+            box-shadow: 0 0 8px rgba(231, 130, 177, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fbc2eb, #a6c1ee); /* Gradiente pastel */
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(166, 193, 238, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+            border-bottom-width: 2px;
+        }
+
+        .results-card {
+            margin-top: 20px;
+            background-color: #f5f8ff; /* Azul bebê */
+            border-color: #dbe6ff;
+            border-radius: 20px;
+            text-align: left;
+            padding: 20px;
+        }
+
+        #results h3 {
+            color: #a6c1ee;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        #results p {
+            line-height: 1.7;
+            color: #6a738b;
+        }
+
+        #results strong {
+            font-size: 1.2rem;
+            color: #8daeec;
+            font-weight: 800;
+        }
+
+        #results .total-strong {
+            font-size: 1.5rem;
+            color: #7c9fe7;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            font-weight: 600;
+            color: #a89bb3;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: #e782b1;
+            margin: 0 15px;
+            font-size: 2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #d187b8;
+            transform: scale(1.1);
+        }
+        
+        .cost-value {
+            font-weight: 800;
+            color: #e782b1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora BabyApple ~🍎</h1>
+        <p class="subtitle">Love and Deepspace</p>
+        
+        <!-- SELEÇÃO DE NÍVEL E RARIDADE -->
+        <div class="card">
+            <h2>🌟 Escolha a Ascensão 🌟</h2>
+            <div class="selector-row">
+                <div class="input-group">
+                    <label for="rarity">Raridade da Memória:</label>
+                    <select id="rarity">
+                        <option value="5">5 Estrelas</option>
+                        <option value="4">4 Estrelas</option>
+                        <option value="3">3 Estrelas</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="ascensionLevel">Nível de Ascensão:</label>
+                    <select id="ascensionLevel">
+                        <option value="10">Level 10</option>
+                        <option value="20">Level 20</option>
+                        <option value="30">Level 30</option>
+                        <option value="40">Level 40</option>
+                        <option value="50">Level 50</option>
+                        <option value="60">Level 60</option>
+                        <option value="70">Level 70</option>
+                        <option value="80">Level 80</option>
+                    </select>
+                </div>
+            </div>
+            <hr style="margin: 1.5rem 0; border-color: #fde4f0; border-style: dashed;">
+            <h3>Custo da Ascensão:</h3>
+            <div class="cost-display-row">
+                <label>Cristais N:</label>
+                <span id="goalN_display" class="cost-value">0</span>
+            </div>
+            <div class="cost-display-row">
+                <label>Cristais R:</label>
+                <span id="goalR_display" class="cost-value">0</span>
+            </div>
+            <div class="cost-display-row">
+                <label>Cristais SR:</label>
+                <span id="goalSR_display" class="cost-value">0</span>
+            </div>
+             <div class="cost-display-row">
+                <label>Gold:</label>
+                <span id="gold_display" class="cost-value">0</span>
+            </div>
+        </div>
+
+        <!-- CRISTAIS ATUAIS -->
+        <div class="card">
+            <h2>✨ Cristais que Você Possui ✨</h2>
+            <div class="input-row">
+                <label for="currentN">Cristais N:</label>
+                <input type="number" id="currentN" value="0" min="0">
+            </div>
+            <div class="input-row">
+                <label for="currentR">Cristais R:</label>
+                <input type="number" id="currentR" value="0" min="0">
+            </div>
+            <div class="input-row">
+                <label for="currentSR">Cristais SR:</label>
+                <input type="number" id="currentSR" value="0" min="0">
+            </div>
+        </div>
+        
+        <!-- BAÚS -->
+        <div class="card">
+            <h2>✨ Baús ✨</h2>
+             <div class="input-row">
+                <label for="chestsN">Baús de N:</label>
+                <input type="number" id="chestsN" value="0" min="0">
+            </div>
+             <div class="input-row">
+                <label for="chestsR">Baús de R:</label>
+                <input type="number" id="chestsR" value="0" min="0">
+            </div>
+             <div class="input-row">
+                <label for="chestsSR">Baús de SR:</label>
+                <input type="number" id="chestsSR" value="0" min="0">
+            </div>
+             <div class="input-row">
+                <label for="chestsGeneral">Baú Geral:</label>
+                <input type="number" id="chestsGeneral" value="0" min="0">
+            </div>
+        </div>
+
+
+        <button id="calculateBtn">Calcular Estratégia! ✨</button>
+
+        <div id="results" class="card results-card" style="text-align: center;">
+            <p>Escolha um nível e preencha seus dados para ver a melhor estratégia de farm~!</p>
+        </div>
+
+        <div class="footer-note">
+            Essa calculadora foi pensada e construída com carinho por Apple~🍎! Tenho um canal do YouTube e um perfil no TikTok em que falo sobre Love and Deepspace! Clique aqui embaixo para me encontrar nas redes!
+        </div>
+
+        <div class="social-links">
+            <a href="https://www.youtube.com/@babyappl3" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@babyapple_lads" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </div>
+
+    <script>
+        const ascensionCosts = {
+            '5': { // 5 Estrelas
+                10: { n: 40, r: 0, sr: 0, gold: 15000 },
+                20: { n: 80, r: 0, sr: 0, gold: 25000 },
+                30: { n: 160, r: 0, sr: 0, gold: 50000 },
+                40: { n: 320, r: 150, sr: 0, gold: 80000 },
+                50: { n: 640, r: 300, sr: 0, gold: 150000 },
+                60: { n: 1200, r: 510, sr: 240, gold: 250000 },
+                70: { n: 2400, r: 1000, sr: 498, gold: 400000 },
+                80: { n: 1200, r: 480, sr: 180, gold: 250000 }
+            },
+            '4': { // 4 Estrelas - PLACEHOLDER - Usando dados de 5 estrelas por enquanto
+                10: { n: 40, r: 0, sr: 0, gold: 15000 },
+                20: { n: 80, r: 0, sr: 0, gold: 25000 },
+                30: { n: 160, r: 0, sr: 0, gold: 50000 },
+                40: { n: 320, r: 150, sr: 0, gold: 80000 },
+                50: { n: 640, r: 300, sr: 0, gold: 150000 },
+                60: { n: 1200, r: 510, sr: 240, gold: 250000 },
+                70: { n: 2400, r: 1000, sr: 498, gold: 400000 },
+                80: { n: 1200, r: 480, sr: 180, gold: 250000 }
+            },
+             '3': { // 3 Estrelas - PLACEHOLDER - Usando dados de 5 estrelas por enquanto
+                10: { n: 40, r: 0, sr: 0, gold: 15000 },
+                20: { n: 80, r: 0, sr: 0, gold: 25000 },
+                30: { n: 160, r: 0, sr: 0, gold: 50000 },
+                40: { n: 320, r: 150, sr: 0, gold: 80000 },
+                50: { n: 640, r: 300, sr: 0, gold: 150000 },
+                60: { n: 1200, r: 510, sr: 240, gold: 250000 },
+                70: { n: 2400, r: 1000, sr: 498, gold: 400000 },
+                80: { n: 1200, r: 480, sr: 180, gold: 250000 }
+            }
+        };
+
+        const raritySelector = document.getElementById('rarity');
+        const levelSelector = document.getElementById('ascensionLevel');
+        
+        function updateCosts() {
+            const selectedRarity = raritySelector.value;
+            const selectedLevel = levelSelector.value;
+            const costs = ascensionCosts[selectedRarity][selectedLevel];
+            
+            document.getElementById('goalN_display').textContent = costs.n.toLocaleString('pt-BR');
+            document.getElementById('goalR_display').textContent = costs.r.toLocaleString('pt-BR');
+            document.getElementById('goalSR_display').textContent = costs.sr.toLocaleString('pt-BR');
+            document.getElementById('gold_display').textContent = costs.gold.toLocaleString('pt-BR');
+        }
+
+        raritySelector.addEventListener('change', updateCosts);
+        levelSelector.addEventListener('change', updateCosts);
+        
+        document.addEventListener('DOMContentLoaded', updateCosts);
+
+
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // --- 1. COLETAR DADOS ---
+            const selectedRarity = raritySelector.value;
+            const selectedLevel = levelSelector.value;
+            const costs = ascensionCosts[selectedRarity][selectedLevel];
+            
+            const goalN = costs.n;
+            const goalR = costs.r;
+            const goalSR = costs.sr;
+            const goldCost = costs.gold;
+            
+            const currentN = parseInt(document.getElementById('currentN').value) || 0;
+            const currentR = parseInt(document.getElementById('currentR').value) || 0;
+            const currentSR = parseInt(document.getElementById('currentSR').value) || 0;
+            
+            const chestsN = parseInt(document.getElementById('chestsN').value) || 0;
+            const chestsR = parseInt(document.getElementById('chestsR').value) || 0;
+            const chestsSR = parseInt(document.getElementById('chestsSR').value) || 0;
+            const chestsGeneral = parseInt(document.getElementById('chestsGeneral').value) || 0;
+
+            // --- 2. REGRAS DO JOGO (CONSTANTES) ---
+            const gainN_battle = 10, gainR_battle = 4, gainSR_battle = 1;
+            const gainN_chest = 5, gainR_chest = 2, gainSR_chest = 1;
+            const stamina_cost = 8;
+
+            // --- 3. CÁLCULOS INICIAIS ---
+            let neededN = Math.max(0, goalN - currentN);
+            let neededR = Math.max(0, goalR - currentR);
+            let neededSR = Math.max(0, goalSR - currentSR);
+            
+            // Batalhas antes de usar qualquer baú
+            const battlesN_before = Math.ceil(neededN / gainN_battle);
+            const battlesR_before = Math.ceil(neededR / gainR_battle);
+            const battlesSR_before = Math.ceil(neededSR / gainSR_battle);
+
+            // Aplicar baús específicos primeiro
+            let neededN_after_specific = Math.max(0, neededN - (chestsN * gainN_chest));
+            let neededR_after_specific = Math.max(0, neededR - (chestsR * gainR_chest));
+            let neededSR_after_specific = Math.max(0, neededSR - (chestsSR * gainSR_chest));
+
+            // --- 4. LÓGICA DE OTIMIZAÇÃO DO BAÚ GERAL ---
+            let optimalDistribution = { genN: 0, genR: 0, genSR: 0, minBattles: Infinity };
+
+            for (let n = 0; n <= chestsGeneral; n++) {
+                for (let r = 0; r <= chestsGeneral - n; r++) {
+                    let s = chestsGeneral - n - r;
+
+                    let finalNeededN = Math.max(0, neededN_after_specific - (n * gainN_chest));
+                    let finalNeededR = Math.max(0, neededR_after_specific - (r * gainR_chest));
+                    let finalNeededSR = Math.max(0, neededSR_after_specific - (s * gainSR_chest));
+
+                    let battlesN = Math.ceil(finalNeededN / gainN_battle);
+                    let battlesR = Math.ceil(finalNeededR / gainR_battle);
+                    let battlesSR = Math.ceil(finalNeededSR / gainSR_battle);
+
+                    let currentMaxBattles = Math.max(battlesN, battlesR, battlesSR);
+
+                    if (currentMaxBattles < optimalDistribution.minBattles) {
+                        optimalDistribution.minBattles = currentMaxBattles;
+                        optimalDistribution.genN = n;
+                        optimalDistribution.genR = r;
+                        optimalDistribution.genSR = s;
+                    }
+                }
+            }
+            
+            // --- 5. APRESENTAR O RESULTADO FINAL ---
+            const finalBattles = optimalDistribution.minBattles;
+            const totalStamina = finalBattles * stamina_cost;
+
+            const finalNeededN_optimal = Math.max(0, neededN_after_specific - (optimalDistribution.genN * gainN_chest));
+            const finalNeededR_optimal = Math.max(0, neededR_after_specific - (optimalDistribution.genR * gainR_chest));
+            const finalNeededSR_optimal = Math.max(0, neededSR_after_specific - (optimalDistribution.genSR * gainSR_chest));
+
+            const finalBattlesN = Math.ceil(finalNeededN_optimal / gainN_battle);
+            const finalBattlesR = Math.ceil(finalNeededR_optimal / gainR_battle);
+            const finalBattlesSR = Math.ceil(finalNeededSR_optimal / gainSR_battle);
+
+            const resultsDiv = document.getElementById('results');
+            
+            let report = `<h4>Otimização do Baú Geral 🍎</h4>
+                          <p style="text-align: left;">A melhor forma de usar seus <strong>${chestsGeneral.toLocaleString('pt-BR')}</strong> Baús Gerais é:</p>
+                          <ul style="list-style-position: inside; text-align: left; margin-left: 1rem;">
+                            <li><strong>${optimalDistribution.genN.toLocaleString('pt-BR')}</strong> para o Cristal N</li>
+                            <li><strong>${optimalDistribution.genR.toLocaleString('pt-BR')}</strong> para o Cristal R</li>
+                            <li><strong>${optimalDistribution.genSR.toLocaleString('pt-BR')}</strong> para o Cristal SR</li>
+                          </ul>`;
+            
+            resultsDiv.innerHTML = `<h3>Plano de Ação Ideal!</h3>
+                                    <div style="text-align:center; margin-bottom: 1rem;">
+                                      <p>Total de Batalhas: <strong class="total-strong">${finalBattles.toLocaleString('pt-BR')}</strong></p>
+                                      <p>Custo de Stamina: <strong class="total-strong">${totalStamina.toLocaleString('pt-BR')}</strong></p>
+                                      <p>Custo em Gold: <strong class="total-strong">${goldCost.toLocaleString('pt-BR')}</strong></p>
+                                    </div>
+                                    <hr style="margin: 1rem 0; border-color: #fde4f0;">
+                                    <div style="text-align: left;">
+                                      <h4>Batalhas por Cristal (Antes dos Baús)</h4>
+                                      <p>Cristal N: <strong>${battlesN_before.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <p>Cristal R: <strong>${battlesR_before.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <p>Cristal SR: <strong>${battlesSR_before.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <hr style="margin: 1rem 0; border-color: #fde4f0;">
+                                      <h4>Batalhas por Cristal (Após Otimização)</h4>
+                                      <p>Cristal N: <strong>${finalBattlesN.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <p>Cristal R: <strong>${finalBattlesR.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <p>Cristal SR: <strong>${finalBattlesSR.toLocaleString('pt-BR')}</strong> Batalhas</p>
+                                      <hr style="margin: 1rem 0; border-color: #fde4f0;">
+                                      ${report}
+                                    </div>
+                                    `;
+        });
+    </script>
+</body>
+</html>
